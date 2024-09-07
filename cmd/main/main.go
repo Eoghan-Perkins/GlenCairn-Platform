@@ -8,6 +8,9 @@ import (
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	// Models
+	"whisky-review-platform/models"
 )
 
 func main() {
@@ -35,6 +38,10 @@ func main() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	fmt.Println("Successfully connected to database", db)
+	fmt.Println("Successfully connected to database")
 
+	// Datbase Auto-Migration
+	db.AutoMigrate(&models.Whisky{}, &models.TastingNotes{})
+
+	fmt.Println("Database migration completed successfully")
 }
