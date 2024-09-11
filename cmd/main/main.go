@@ -11,6 +11,8 @@ import (
 
 	// Models
 	"whisky-review-platform/models"
+	// Controllers
+	//"whisky-review-platform/controllers" -- Uncomment after integration
 )
 
 func main() {
@@ -40,29 +42,9 @@ func main() {
 
 	fmt.Println("Successfully connected to database")
 
-	// Datbase Auto-Migration
+	// Database Auto-Migration
 	db.AutoMigrate(&models.Whisky{}, &models.TastingNotes{})
 
-	fmt.Println("Database migration completed successfully")
+	// CRUD functions via controllers package
 
-	// DATABASE TESTING --- TO BE DELETED
-	whisky := models.Whisky{
-		Name:       "Port Charlotte",
-		Region:     "Islay",
-		Age:        10,
-		Distillery: "Bruichladdich",
-		PeatPPM:    100,
-		Notes: []models.TastingNotes{
-			{Note: "Medicinal"},
-			{Note: "Heavily Peated"},
-			{Note: "Spicy"},
-		},
-	}
-
-	result := db.Create(&whisky)
-	if result.Error != nil {
-		log.Fatalf("Fatal error while trying to add whisky record: %v", result.Error)
-	}
-
-	fmt.Println("Whisky record created sucessfully")
 }
