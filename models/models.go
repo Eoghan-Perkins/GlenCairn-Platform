@@ -7,6 +7,7 @@ type Whisky struct {
 	Region     string
 	Age        int
 	Distillery string
+	PeatPPM    uint
 	Notes      []TastingNotes
 }
 
