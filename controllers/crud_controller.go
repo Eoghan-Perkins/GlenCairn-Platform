@@ -14,7 +14,7 @@ import (
 // Create, Read, Update, and Delete whisky records
 
 // Add new whisky to database
-func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, ppm uint, ch bool, tn []string) {
+func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, ppm uint, ch bool, rting float32, tn []string) {
 	// Organize any included tasting notes into TastingNotes struct for later addition
 	notes := []models.TastingNotes{}
 	for _, note := range tn {
@@ -24,13 +24,14 @@ func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, p
 	}
 	// Complete whisky record
 	whisky := models.Whisky{
-		Name:       name,
-		Region:     region,
-		Age:        age,
-		Distillery: dist,
-		PeatPPM:    ppm,
-		Chfilt:     ch,
-		Notes:      notes,
+		Name:           name,
+		Region:         region,
+		Age:            age,
+		Distillery:     dist,
+		PeatPPM:        ppm,
+		ChillFiltering: ch,
+		Notes:          notes,
+		AverageRating:  rting,
 	}
 	// Error Handling
 	result := db.Create(&whisky)
@@ -65,6 +66,8 @@ func ReadWhisky(db *gorm.DB, id uint) {
 		fmt.Println("%s is from %s in the %s region. It is peated at %d PPM and aged for %s years",
 			name, dist, region, ppm, age)
 	}
+	// Print Average Rating
+	fmt.Println("Average Rating: %f", whisky.AverageRating)
 	// Print Tasting Notes
 	fmt.Println("Tasting Notes:")
 	for _, note := range whisky.Notes {
