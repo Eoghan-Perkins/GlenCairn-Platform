@@ -5,7 +5,7 @@ type Whisky struct {
 	ID         uint
 	Name       string
 	Region     string
-	Age        int
+	Age        uint
 	Distillery string
 	PeatPPM    uint
 	Chfilt     bool

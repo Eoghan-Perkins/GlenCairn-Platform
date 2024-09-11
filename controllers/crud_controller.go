@@ -14,18 +14,23 @@ import (
 // Create, Read, Update, and Delete whisky records
 
 // Add new whisky to database
-func AddWhisky(db *gorm.DB, id uint) {
+func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, ppm uint, ch bool, tn []string) {
+	// Organize any included tasting notes into TastingNotes struct for later addition
+	notes := []models.TastingNotes{}
+	for _, note := range tn {
+		notes = append(notes, models.TastingNotes{
+			Note: note,
+		})
+	}
+	// Complete whisky record
 	whisky := models.Whisky{
-		Name:       "Port Charlotte",
-		Region:     "Islay",
-		Age:        10,
-		Distillery: "Bruichladdich",
-		PeatPPM:    100,
-		Notes: []models.TastingNotes{
-			{Note: "Medicinal"},
-			{Note: "Heavily Peated"},
-			{Note: "Spicy"},
-		},
+		Name:       name,
+		Region:     region,
+		Age:        age,
+		Distillery: dist,
+		PeatPPM:    ppm,
+		Chfilt:     ch,
+		Notes:      notes,
 	}
 	// Error Handling
 	result := db.Create(&whisky)
@@ -56,7 +61,7 @@ func ReadWhisky(db *gorm.DB, id uint) {
 		fmt.Println(name+" is from "+dist+" in the "+region+". It is peated at %d PPM and has no age statement",
 			name, dist, region, ppm)
 	} else {
-		var age = strconv.Itoa(whisky.Age)
+		var age = strconv.Itoa(int(whisky.Age))
 		fmt.Println("%s is from %s in the %s region. It is peated at %d PPM and aged for %s years",
 			name, dist, region, ppm, age)
 	}
