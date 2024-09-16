@@ -43,7 +43,7 @@ func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, p
 }
 
 // Retrieve Whisky data
-func ReadWhisky(db *gorm.DB, id uint) {
+func ReadWhisky(db *gorm.DB, id uint64) {
 	// Declare empty whisky struct to hold data after retrieval from db
 	var whisky models.Whisky
 	// Preload any tasting notes
@@ -59,19 +59,17 @@ func ReadWhisky(db *gorm.DB, id uint) {
 	var region = whisky.Region
 	// Handle NAS whiskies (No-Age-Statement)
 	if whisky.Age == 00 {
-		fmt.Println(name+" is from "+dist+" in the "+region+". It is peated at %d PPM and has no age statement",
-			name, dist, region, ppm)
+		fmt.Println(name, "is from", dist, "in the", region, "region. It is peated at", ppm, "PPM and has no age statement")
 	} else {
 		var age = strconv.Itoa(int(whisky.Age))
-		fmt.Println("%s is from %s in the %s region. It is peated at %d PPM and aged for %s years",
-			name, dist, region, ppm, age)
+		fmt.Println(name, "is from", dist, "in the", region, "region. It is peated at", ppm, "PPM and aged for", age, "years")
 	}
 	// Print Average Rating
-	fmt.Println("Average Rating: %f", whisky.AverageRating)
+	fmt.Println("Average Rating: ", whisky.AverageRating)
 	// Print Tasting Notes
 	fmt.Println("Tasting Notes:")
 	for _, note := range whisky.Notes {
-		fmt.Println("- %s", note.Note)
+		fmt.Println("- ", note.Note)
 	}
 }
 

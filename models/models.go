@@ -10,12 +10,13 @@ type Whisky struct {
 	PeatPPM        uint
 	ChillFiltering bool
 	AverageRating  float32
-	Notes          []TastingNotes
+	Notes          []TastingNotes `gorm:"foreignKey:WhiskyID;constraint:OnDelete:CASCADE;"`
+	// Cascade deletion for Tasting Notes struct
 }
 
 // Tasting Notes struct
 type TastingNotes struct {
-	ID       uint
+	ID       uint `gorm:"primaryKey"`
 	Note     string
 	WhiskyID uint
 }
