@@ -51,3 +51,40 @@ func GetWhisky(db *gorm.DB, id uint) {
 		fmt.Println("-", note)
 	}
 }
+
+func UpdateAverageRating(db *gorm.DB, id uint) error {
+
+	// Retrieve whisky, handle any errors
+	var whisky models.Whisky
+	if err := db.First(&whisky, id).Error; err != nil {
+		return fmt.Errorf("Whisky Not Found. Error: ", err)
+	}
+
+	// Retrieve reviews, handle any errors
+	var reviews []models.UserReview
+	if err := db.Where("whisky_id = ?", id).Find(&reviews).Error; err != nil {
+		return fmt.Errorf("Error Finding Reviews: ", err)
+	}
+
+	// Get length of reviews
+	var reviews_len = float32(len(reviews))
+
+	// Calculate and save average review score
+	if reviews_len == 0 {
+		whisky.AverageRating = 5.0
+	} else {
+		var total = float32(0)
+		for _, review := range reviews {
+			total += float32(review.Rating)
+		}
+		var final_rating = (total / reviews_len)
+		whisky.AverageRating = final_rating
+	}
+
+	// Handle any errors during saving
+	if err := db.Save(&whisky).Error; err != nil {
+		fmt.Errorf("Could not save score. Error: ", err)
+	}
+
+	return nil
+}

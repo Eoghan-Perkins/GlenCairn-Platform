@@ -11,7 +11,7 @@ import (
 )
 
 // CRUD FUNCTIONS FOR MAIN.GO
-// Create, Read, Update, and Delete whisky records
+// Whisky Controller Functions
 
 // Add new whisky to database
 func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, ppm uint, ch bool, rting float32, tn []string) {
@@ -71,6 +71,7 @@ func ReadWhisky(db *gorm.DB, id uint64) {
 	for _, note := range whisky.Notes {
 		fmt.Println("- ", note.Note)
 	}
+
 }
 
 // Update a whisky's data
