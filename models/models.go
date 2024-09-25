@@ -9,7 +9,8 @@ type Whisky struct {
 	Distillery     string
 	PeatPPM        uint
 	ChillFiltering bool
-	AverageRating  float32        // Rating out of 5 stars
+	AverageRating  float32 // Rating out of 5 stars
+	ReviewCount    int16
 	UserFavorite   float32        // Percentage
 	Notes          []TastingNotes `gorm:"foreignKey:WhiskyID;constraint:OnDelete:CASCADE;"` // Cascade deletion for Tasting Notes struct
 

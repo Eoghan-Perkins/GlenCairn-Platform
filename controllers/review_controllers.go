@@ -8,6 +8,9 @@ import (
 	"gorm.io/gorm"
 )
 
+// CRUD FUNCTIONS FOR MAIN.GO
+// Review Controller Functions
+
 func ReadUserReview(db *gorm.DB, id uint) {
 
 	// Get Review, handle errors
@@ -28,7 +31,7 @@ func ReadUserReview(db *gorm.DB, id uint) {
 
 }
 
-func GetWhisky(db *gorm.DB, id uint) {
+func ReadAverageReview(db *gorm.DB, id uint) {
 
 	// Get Scotch, handle error
 	var whisky models.Whisky
@@ -37,7 +40,7 @@ func GetWhisky(db *gorm.DB, id uint) {
 		log.Fatalf("Could not locate scotch: ", result.Error)
 	}
 
-	// Read Granddaddy reeview
+	// Read Grandaddy review
 	fmt.Println(whisky.Name)
 	fmt.Println("Average Rating (out of 5): ", whisky.AverageRating)
 	fmt.Println("Percentage of User's Favorite: ", whisky.UserFavorite)
@@ -52,6 +55,16 @@ func GetWhisky(db *gorm.DB, id uint) {
 	}
 }
 
+func AddUserReview(db *gorm.DB, userID uint, whiskyID uint, review models.UserReview) error {
+
+	// Add ReviewAdd functionality in front end
+
+	UpdateAverageRating(db, whiskyID)  // Update Average rating to whisky struct post-review
+	UpdateReviewCount(db, whiskyID, 1) // Update Review count
+	return nil
+}
+
+// Function Calculates and saves a whisky struct's average review score
 func UpdateAverageRating(db *gorm.DB, id uint) error {
 
 	// Retrieve whisky, handle any errors
@@ -71,7 +84,7 @@ func UpdateAverageRating(db *gorm.DB, id uint) error {
 
 	// Calculate and save average review score
 	if reviews_len == 0 {
-		whisky.AverageRating = 5.0
+		whisky.AverageRating = 2.5
 	} else {
 		var total = float32(0)
 		for _, review := range reviews {
@@ -86,5 +99,32 @@ func UpdateAverageRating(db *gorm.DB, id uint) error {
 		fmt.Errorf("Could not save score. Error: ", err)
 	}
 
+	log.Printf("Review Score Successfully Updated!")
 	return nil
+}
+
+// Function takes in a signed integer (1/-1) to increase or decrease
+// a whisky struct's review count
+
+func UpdateReviewCount(db *gorm.DB, id uint, pm int16) {
+
+	// Get empyt whisky model
+	var whisky models.Whisky
+	// Retrieve whisky, handle any errors
+	if err := db.First(&whisky, id).Error; err != nil {
+		fmt.Println("Whisky Not Found. Error: ", err)
+		log.Fatalf("Whisky Not Found. Error: ", err)
+	}
+
+	// Increase or decrease review count
+	whisky.ReviewCount += pm
+
+	// Handle any errors during saving
+	if err := db.Save(&whisky).Error; err != nil {
+		fmt.Println("Could not save score. Error: ", err)
+		log.Fatalf("Could not save score. Error: ", err)
+	}
+
+	log.Printf("Review count for", whisky.Name, "successfully updated!")
+
 }
