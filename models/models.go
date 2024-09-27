@@ -13,7 +13,7 @@ type Whisky struct {
 	ReviewCount    int16
 	UserFavorite   float32        // Percentage
 	Notes          []TastingNotes `gorm:"foreignKey:WhiskyID;constraint:OnDelete:CASCADE;"` // Cascade deletion for Tasting Notes struct
-
+	Reviews        []UserReview   `gorm:"foreignKey:WhiskyID;constraint:OnDelete:CASCADE;"`
 }
 
 // Tasting Notes struct

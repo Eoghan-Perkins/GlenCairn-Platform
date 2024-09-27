@@ -55,13 +55,36 @@ func ReadAverageReview(db *gorm.DB, id uint) {
 	}
 }
 
-func AddUserReview(db *gorm.DB, userID uint, whiskyID uint, review models.UserReview) error {
+// This function is passed a set of parameters that are used to create and add a new UserReview struct
+func AddUserReview(db *gorm.DB, userID uint, whiskyID uint, favorite bool, rating float32, sa []string) {
 
-	// Add ReviewAdd functionality in front end
+	// Creates []TastingNotes struct from passed string array
+	var notes []models.TastingNotes
+	for _, note := range sa {
+		notes = append(notes, models.TastingNotes{
+			Note: note,
+		})
+	}
 
+	// Build struct
+	review := models.UserReview{
+		WhiskyID: whiskyID,
+		AuthorID: userID,
+		Favorite: favorite,
+		Rating:   rating,
+		Notes:    notes,
+	}
+
+	// Add struct to db, handle any errors
+	result := db.Create(&review)
+	if result.Error != nil {
+		log.Fatalf("Could Not Add Review. Error : ", result.Error)
+	}
+
+	// Update mother whisky's metrics based on input
 	UpdateAverageRating(db, whiskyID)  // Update Average rating to whisky struct post-review
 	UpdateReviewCount(db, whiskyID, 1) // Update Review count
-	return nil
+
 }
 
 // Function Calculates and saves a whisky struct's average review score
