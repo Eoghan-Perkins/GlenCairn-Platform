@@ -31,6 +31,7 @@ func ReadUserReview(db *gorm.DB, id uint) {
 
 }
 
+// Returns data regarding the desired whisky's averages
 func ReadAverageReview(db *gorm.DB, id uint) {
 
 	// Get Scotch, handle error

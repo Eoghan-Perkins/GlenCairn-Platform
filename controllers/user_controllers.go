@@ -42,7 +42,7 @@ func ReadUser(db *gorm.DB, id uint) {
 
 	// Print out info
 	fmt.Println("Username: ", user.Username)
-	fmt.Println("User Age: ", user.UserAge, "days")
+	//fmt.Println("User Age: ", user.UserAge, "days") Uncomment after adding day-counting functionality
 	fmt.Println("Number of Reviews: ", user.NumReviews)
 
 }
