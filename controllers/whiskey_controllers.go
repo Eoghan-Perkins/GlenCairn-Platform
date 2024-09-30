@@ -15,6 +15,15 @@ import (
 
 // Add new whisky to database
 func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, ppm uint, ch bool, rting float32, tn []string) {
+
+	// Check to make sure whisky doesn't exist first
+	var whiskyCheck models.Whisky
+	result := db.First(whiskyCheck)
+	if result.Error != nil {
+		log.Fatalf("That Scotch Already Exists")
+
+	}
+
 	// Organize any included tasting notes into TastingNotes struct for later addition
 	notes := []models.TastingNotes{}
 	for _, note := range tn {
