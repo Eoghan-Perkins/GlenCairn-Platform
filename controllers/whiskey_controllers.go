@@ -18,10 +18,9 @@ func AddWhisky(db *gorm.DB, name string, region string, age uint, dist string, p
 
 	// Check to make sure whisky doesn't exist first
 	var whiskyCheck models.Whisky
-	result := db.First(whiskyCheck)
-	if result.Error != nil {
+	result_0 := db.First(whiskyCheck)
+	if result_0.Error != nil {
 		log.Fatalf("That Scotch Already Exists")
-
 	}
 
 	// Organize any included tasting notes into TastingNotes struct for later addition
