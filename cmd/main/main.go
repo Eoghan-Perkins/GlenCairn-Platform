@@ -45,6 +45,4 @@ func main() {
 	// Database Auto-Migration
 	db.AutoMigrate(&models.Whisky{}, &models.TastingNotes{}, &models.User{})
 
-	// CRUD functions testing via CLI --- DELETE LATER
-
 }
