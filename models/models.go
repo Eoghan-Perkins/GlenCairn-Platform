@@ -47,6 +47,7 @@ type UserReview struct {
 	Notes    []TastingNotes
 }
 
+// Struct for User Registration Data
 type RegistrationData struct {
 	Username string `json:"username" binding:"required"`
 	Email    string `json:"email" binding:"required, email"`

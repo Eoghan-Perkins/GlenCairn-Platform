@@ -11,6 +11,8 @@ import (
 // CRUD functions for MAIN.GO
 // User Controller Functions
 
+// Rewrriten in auth_controllers
+/*
 func NewUser(db *gorm.DB, username string, password string) {
 
 	user := models.User{
@@ -28,6 +30,7 @@ func NewUser(db *gorm.DB, username string, password string) {
 	fmt.Println("New User Record Created Successfully")
 
 }
+*/
 
 func ReadUser(db *gorm.DB, id uint) {
 
@@ -37,7 +40,7 @@ func ReadUser(db *gorm.DB, id uint) {
 	result := db.First(&user, id)
 	// Error Handling
 	if result.Error != nil {
-		log.Fatalf("Could Not Read User From Database: ", result.Error)
+		log.Fatal("Could Not Read User From Database: ", result.Error)
 	}
 
 	// Print out info
