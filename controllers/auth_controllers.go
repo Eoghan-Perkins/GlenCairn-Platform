@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"whisky-review-platform/models"
+	"whisky-review-platform/utils"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -71,7 +72,7 @@ func LoginHandler(db *gorm.DB, k *gin.Context) {
 	}
 
 	// Generate JSON token for remainder of session
-	token, err := GenerateToken(user.ID)
+	token, err := utils.GenerateToken(user.ID)
 	if err != nil {
 		k.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to Generate Session Token"})
 		return
@@ -83,8 +84,3 @@ func LoginHandler(db *gorm.DB, k *gin.Context) {
 }
 
 // LOGOUT HANDLER
-
-// JWT TOKEN GENERATOR
-func GenerateToken(id string) {
-	return
-}
