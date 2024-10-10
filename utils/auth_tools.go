@@ -6,9 +6,10 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-var secretToken = []byte("secret_user_token")
-
+// Generate a jwt session token
 func GenerateToken(id uint) (string, error) {
+
+	var secretToken = []byte("secret_user_token")
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": id,
